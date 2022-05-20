@@ -1,7 +1,9 @@
 {% extends 'women/base.html' %}
+{% load women_tags %}
 
 {% block content %}
 <ul class="list-articles">
+	{% getposts cat_selected as posts %}
 	{% for p in posts %}
 			<li>
 			<div class="article-panel">
