@@ -9,7 +9,7 @@ def get_posts(cat_selected=0):
     if not cat_selected:
         return Women.objects.all()
     else:
-        return Women.objects.filter(cat_id=Category.objects.get(slug=cat_selected).id)
+        return Women.objects.filter(cat_id=cat_selected)
 
 
 @register.inclusion_tag('women/list_categories.html')
