@@ -3,7 +3,7 @@ from django.contrib.auth.views import LoginView
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, FormView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import *
 from .models import *
@@ -67,9 +67,22 @@ class AddPage(LoginRequiredMixin, DataMixin, CreateView):
 #     return render(request, 'women/addpage.html', {'form': form, 'menu': menu, 'title': 'Добавление статьи'})
 
 
-def contact(request):
-    return HttpResponse(f"<h1>Пустая страница</h1>")
+# def contact(request):
+#     return HttpResponse(f"<h1>Пустая страница</h1>")
 
+class ContactFormView(DataMixin, FormView):
+    form_class = ContactForm
+    template_name = 'women/contact.html'
+    success_url = reverse_lazy('home')
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title='Обратная связь')
+        context.update(c_def)
+        return context
+
+    def form_valid(self, form):
+        return redirect('home')
 
 # def login(request):
 #     return HttpResponse(f"<h1>Пустая страница</h1>")
